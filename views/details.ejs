@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="details content">
+      <!-- access blog title -->
+      <h2><%= blog.title %></h2>
+      <div class="content">
+        <!-- access blog body -->
+        <p><%= blog.body %></p>
+      </div>
+      <!-- to delete specific blog -->
+      <!-- data-doc : js에서 data를 get하기 위해 사용. (doc은 내가 원하는 대로 바꿀수 있음) -->
+      <a class="delete" data-doc="<%= blog._id %>">delete</a>
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+
+    <script>
+      const trashcan = document.querySelector('a.delete');
+
+      // delete버튼을 삭제할때마다 fetch 요청을 보냄
+      trashcan.addEventListener('click', (e) => {
+        const endpoint = `/blogs/${trashcan.dataset.doc}`;
+        // this is ajax request
+        fetch(endpoint, {
+          method: 'DELETE',
+        })
+          .then((response) => response.json())
+          // redirect하는 방법
+          .then((data) => (window.location.href = data.redirect))
+          .catch((err) => console.log(err));
+      });
+    </script>
+  </body>
+</html>
