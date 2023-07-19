@@ -1,5 +1,6 @@
 const express = require('express');
 const blogController = require('../controllers/blogController');
+const Blog = require('../models/blog');
 
 // to create new instance of a router object
 const router = express.Router();
